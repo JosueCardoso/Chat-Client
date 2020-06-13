@@ -1,11 +1,11 @@
 import React from 'react';
-
-import Login from './pages/login'
+import { Link } from 'react-router-dom'
 
 function App() {
   return (
-    <div className="App">
-      <Login/>
+    <div >
+      <h1>App-index</h1>
+      <Link to="/chat"> Go to Chat</Link>
     </div>
   );
 }
