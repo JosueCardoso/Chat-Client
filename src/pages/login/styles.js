@@ -28,7 +28,7 @@ export const LoginContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 120px;
+    margin-bottom: 60px;
 `;
 
 export const RegisterContainer = styled.div`

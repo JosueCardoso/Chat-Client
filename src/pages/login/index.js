@@ -33,7 +33,6 @@ export default class Login extends Component {
             <Input placeholder="Usuário"/>
             <Input type="password" placeholder="Senha"/>
             <Input placeholder="Email"/>
-            <Input type="date" placeholder="Data de Nascimento"/>
             <Button value="Registrar"/>
           </RegisterContainer>
         </MainBox>        
