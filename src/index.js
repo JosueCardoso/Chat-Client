@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './pages/login'
 import Chat from './pages/chat'
 import Page404 from './pages/page404'
 import * as serviceWorker from './serviceWorker';
