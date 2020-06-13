@@ -1,13 +1,43 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
+
+import ProjectTitle from '../../components/projectTitle'
+import Input from '../../components/input'
+import Button from '../../components/button'
+
+import { 
+        Container , 
+        MainBox, 
+        LoginContainer, 
+        RegisterContainer, 
+        Divider,
+        Title
+        } from './styles'
 
 export default class Login extends Component {
   render() {
     return (
-      <div>
-        <h1> Login </h1>
-        <Link to="/chat">To Chat</Link>
-      </div>
+      <Container>
+        <ProjectTitle/>
+        <MainBox>
+          <LoginContainer>
+            <Title>Login</Title>
+            <Input placeholder="Usuário"/>
+            <Input type="password" placeholder="Senha"/>
+            <Button value="Entrar"/>
+          </LoginContainer>
+
+          <Divider/>
+
+          <RegisterContainer>
+            <Title>Cadastro</Title>
+            <Input placeholder="Usuário"/>
+            <Input type="password" placeholder="Senha"/>
+            <Input placeholder="Email"/>
+            <Input type="date" placeholder="Data de Nascimento"/>
+            <Button value="Registrar"/>
+          </RegisterContainer>
+        </MainBox>        
+      </Container>
     )
   }
 }
