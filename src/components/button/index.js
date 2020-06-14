@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import { Button } from './styles'
 
-function CustomButton({value}) {
+function CustomButton({value, disabled}) {
     const history = useHistory();
 
     const onClickEvent = () => {
@@ -21,7 +21,7 @@ function CustomButton({value}) {
     }
 
     return (
-        <Button onClick={onClickEvent}>{value}</Button>
+        <Button disabled={disabled} onClick={onClickEvent}>{value}</Button>
     )
 }
 

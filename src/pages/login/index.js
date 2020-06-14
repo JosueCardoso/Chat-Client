@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { connect } from 'react-redux';
 
 import ProjectTitle from '../../components/projectTitle'
 import Input from '../../components/input'
@@ -13,25 +14,29 @@ import {
         Title
         } from './styles'
 
-function Login({socketIOClient}) {
+function Login({socketIOClient, isConnected}) {
   const handleSocketIO = () => {
     const socket = socketIOClient;
-    
-      //Recebe a resposta do servidor
-      socket.on('responseStatus', (response) => {
-          if(response === "USER_AUTHENTICATED"){
-            alert("Usuário autenticado");
-          }
-          if(response === "USER_NOT_AUTHENTICATED"){
-            alert("Usuário não autenticado");
-          }
-          if(response === "USER_REGISTERED"){
-            alert("Usuário registrado");
-          }
-          if(response === "USER_NOT_REGISTERED"){
-            alert("Usuário não registrado");
-          }
-      });
+
+    if(isConnected === false){
+      alert("Não foi possível conectar ao servidor!");
+    }
+
+    //Recebe a resposta do servidor referente as requisições
+    socket.on('responseStatus', (response) => {
+        if(response === "USER_AUTHENTICATED"){
+          alert("Usuário autenticado");
+        }
+        if(response === "USER_NOT_AUTHENTICATED"){
+          alert("Usuário não autenticado");
+        }
+        if(response === "USER_REGISTERED"){
+          alert("Usuário registrado");
+        }
+        if(response === "USER_NOT_REGISTERED"){
+          alert("Usuário não registrado");
+        }
+    });
   }
 
   useEffect(() => {
@@ -46,7 +51,7 @@ function Login({socketIOClient}) {
           <Title>Login</Title>
           <Input placeholder="Usuário"/>
           <Input type="password" placeholder="Senha"/>
-          <Button value="Entrar"/>
+          <Button disabled={isConnected === false} value="Entrar"/>
         </LoginContainer>
 
         <Divider/>
@@ -56,11 +61,15 @@ function Login({socketIOClient}) {
           <Input placeholder="Usuário"/>
           <Input type="password" placeholder="Senha"/>
           <Input placeholder="Email"/>
-          <Button value="Registrar"/>
+          <Button disabled={isConnected === false} value="Registrar"/>
         </RegisterContainer>
       </MainBox>        
     </Container>
   )
 }
 
-export default Login;
+const mapStateToProps = store => ({
+  isConnected: store.appState.isConnected
+});
+
+export default connect(mapStateToProps)(Login);
