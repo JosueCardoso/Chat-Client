@@ -1,21 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './pages/login'
-import Chat from './pages/chat'
-import Page404 from './pages/page404'
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter, Switch, Route  } from 'react-router-dom'
+
+import Routes from './routes'
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-    <Switch>
-      <Route path="/" exact={true} component={App}/>
-      <Route path="/chat" component={Chat}/>
-      <Route path="*" component={Page404}/>
-    </Switch>          
-    </BrowserRouter>
+    <Routes/>
   </React.StrictMode>,
   document.getElementById('root')
 );
