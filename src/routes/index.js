@@ -34,6 +34,13 @@ const Routes = ({setConnected}) => {
         socketIOClient.disconnect(); 
       }    
     });
+
+    socketIOClient.on('connectionStatus', (response) => {   
+      if(response === "CLIENT_CONNECTED"){
+        setConnected(true);
+        tries = 0;
+      }      
+    });
   }
   
   useEffect(() => {
