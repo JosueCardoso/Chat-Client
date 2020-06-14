@@ -36,6 +36,12 @@ export default class Login extends Component {
           if(response === "USER_NOT_AUTHENTICATED"){
             alert("Usuário não autenticado");
           }
+          if(response === "USER_REGISTERED"){
+            alert("Usuário registrado");
+          }
+          if(response === "USER_NOT_REGISTERED"){
+            alert("Usuário não registrado");
+          }
       });
   }
 
