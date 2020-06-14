@@ -26,7 +26,17 @@ export default class Login extends Component {
         if (tries === 3) {
              socket.disconnect();
         }    
-      });       
+      });
+
+      //Recebe a resposta do servidor
+      socket.on('responseStatus', (response) => {
+          if(response === "USER_AUTHENTICATED"){
+            alert("Usuário autenticado");
+          }
+          if(response === "USER_NOT_AUTHENTICATED"){
+            alert("Usuário não autenticado");
+          }
+      });
   }
 
   componentDidMount(){
