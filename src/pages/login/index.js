@@ -14,22 +14,23 @@ import {
         Title
         } from './styles'
 
-export default class Login extends Component {
-  connectSocketIO = () => {
+export default class Login extends Component {  
+
+  handleSocketIO = () => {
     const socket = SocketIOClient("http://127.0.0.1:4001"); 
     
-    let tries = 0;
-    //Caso o servidor esteja offline, tentará se conectar até três vezes
-    socket.on('reconnecting', () => {     
-      tries++; 
-      if (tries === 3) {
-           socket.disconnect();
-      }    
-    });
+      let tries = 0;
+      //Caso o servidor esteja offline, tentará se conectar até três vezes
+      socket.on('reconnecting', () => {     
+        tries++; 
+        if (tries === 3) {
+             socket.disconnect();
+        }    
+      });       
   }
 
   componentDidMount(){
-    this.connectSocketIO();
+    this.handleSocketIO();
   }
 
   render() {  
