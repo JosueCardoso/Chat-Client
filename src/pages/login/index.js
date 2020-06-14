@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import SocketIOClient from "socket.io-client";
 
 import ProjectTitle from '../../components/projectTitle'
 import Input from '../../components/input'
@@ -14,7 +15,24 @@ import {
         } from './styles'
 
 export default class Login extends Component {
-  render() {
+  connectSocketIO = () => {
+    const socket = SocketIOClient("http://127.0.0.1:4001"); 
+    
+    let tries = 0;
+    //Caso o servidor esteja offline, tentará se conectar até três vezes
+    socket.on('reconnecting', () => {     
+      tries++; 
+      if (tries === 3) {
+           socket.disconnect();
+      }    
+    });
+  }
+
+  componentDidMount(){
+    this.connectSocketIO();
+  }
+
+  render() {  
     return (
       <Container>
         <ProjectTitle/>
