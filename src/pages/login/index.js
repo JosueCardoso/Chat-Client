@@ -57,7 +57,7 @@ function Login({socketIOClient, isConnected, setAuthenticated}) {
       username: usernameLogin,
       password: passwordLogin
     }
-
+    //TODO: fazer a tratativa dos campos antes de enviar a requisição
     socket.emit('sendMessage', messageObject);
   }
 
