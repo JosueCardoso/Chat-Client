@@ -7,6 +7,7 @@ import ChatComponent from '../../components/chat'
 import UsersOnline from '../../components/usersOnline'
 
 function Chat({socketIOClient}) {
+    //TODO: Fazer controle de conexão, para o caso do servidor cair, o usuário deverá ser redirecionado para a tela de login
  return (
     <Container>
         <ProjectTitle/>

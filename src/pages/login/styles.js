@@ -48,3 +48,27 @@ export const Title = styled.h1`
     font-weight: 500;
     color: #747474;
 `;
+
+export const Input = styled.input`
+    width: 250px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #cacaca;
+`;
+
+export const Button = styled.button`
+  width: 150px;
+  padding: 10px;
+  background-color: #FFF;
+  border: 1px solid #cacaca;
+  border-radius: 0px;
+  margin-top: 15px;
+  cursor: pointer;
+  outline: none;
+  font-size: 14px;
+
+  &:hover{
+    font-weight: bold;
+    box-shadow: 0px 0px 5px 1px #cacaca;
+  }
+`;

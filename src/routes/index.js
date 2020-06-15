@@ -10,19 +10,19 @@ import Chat from '../pages/chat'
 import Page404 from '../pages/page404'
 import { setConnected } from '../actions';
 
-const isAuthenticated = () => false; //TODO: Alterar para consultar no banco
+
 const socketIOClient = SocketIOClient("http://127.0.0.1:4001");
 
-const PrivateRoute = ({component: Component, ...rest}) => (
+let PrivateRoute = ({component: Component, isAuthenticated: IsAuthenticated, ...rest}) => (
   <Route
     {...rest} 
     render={props =>
-      isAuthenticated() ? (<Component {...props}/>) : (<Redirect to={{pathname: "/", state: {from: props.location}}}/>)
+      IsAuthenticated ? (<Component {...props}/>) : (<Redirect to={{pathname: "/", state: {from: props.location}}}/>)
     }
   />
 )
 
-const Routes = ({setConnected}) => {
+const Routes = ({setConnected, isAuthenticated}) => {
   const reconnectingEvent = () => {
     let tries = 0;
     
@@ -45,13 +45,13 @@ const Routes = ({setConnected}) => {
   
   useEffect(() => {
     reconnectingEvent();
-  });
+  }, []);
 
   return (  
     <BrowserRouter>
         <Switch>
           <Route path="/" exact={true} component={() => (<App socketIOClient = {socketIOClient}/>)}/>
-          <PrivateRoute path="/chat" component={() => (<Chat socketIOClient = {socketIOClient}/>)}/>
+          <PrivateRoute path="/chat" isAuthenticated={isAuthenticated} component={() => (<Chat socketIOClient = {socketIOClient}/>)}/>
           <Route path="*" component={Page404}/>
         </Switch>          
     </BrowserRouter>
@@ -60,4 +60,8 @@ const Routes = ({setConnected}) => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ setConnected }, dispatch);
 
-export default connect(null, mapDispatchToProps)(Routes);
+const mapStateToProps = store => ({
+  isAuthenticated: store.appState.isAuthenticated
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);

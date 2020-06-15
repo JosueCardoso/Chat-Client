@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { useHistory } from 'react-router-dom';
 
+import { setAuthenticated } from '../../actions';
 import ProjectTitle from '../../components/projectTitle'
-import Input from '../../components/input'
-import Button from '../../components/button'
 
 import { 
         Container , 
@@ -11,21 +12,32 @@ import {
         LoginContainer, 
         RegisterContainer, 
         Divider,
-        Title
+        Title,
+        Input,
+        Button
         } from './styles'
 
-function Login({socketIOClient, isConnected}) {
-  const handleSocketIO = () => {
-    const socket = socketIOClient;
+function Login({socketIOClient, isConnected, setAuthenticated}) {
+  const history = useHistory();
+  const[usernameLogin, setUsernameLogin] = useState('');
+  const[passwordLogin, setPasswordLogin] = useState('');
+  const socket = socketIOClient;
 
+  const handleSocketIO = () => {
+    
     if(isConnected === false){
       alert("Não foi possível conectar ao servidor!");
     }
 
     //Recebe a resposta do servidor referente as requisições
-    socket.on('responseStatus', (response) => {
-        if(response === "USER_AUTHENTICATED"){
+    socket.on('responseStatus', (response) => { 
+        if(response === "USER_AUTHENTICATED"){          
           alert("Usuário autenticado");
+
+          setAuthenticated(true);
+          
+          let path = `/chat`; 
+          history.push(path);
         }
         if(response === "USER_NOT_AUTHENTICATED"){
           alert("Usuário não autenticado");
@@ -39,9 +51,19 @@ function Login({socketIOClient, isConnected}) {
     });
   }
 
-  useEffect(() => {
+  const handleAuthentication = () => {
+    const messageObject = {
+      protocol: "LOGIN",
+      username: usernameLogin,
+      password: passwordLogin
+    }
+
+    socket.emit('sendMessage', messageObject);
+  }
+
+  useEffect(() => {    
     handleSocketIO();
-  });
+  }, []);
 
   return (
     <Container>
@@ -49,9 +71,9 @@ function Login({socketIOClient, isConnected}) {
       <MainBox>
         <LoginContainer>
           <Title>Login</Title>
-          <Input placeholder="Usuário"/>
-          <Input type="password" placeholder="Senha"/>
-          <Button disabled={isConnected === false} value="Entrar"/>
+          <Input placeholder="Usuário" onInput={e => setUsernameLogin(e.target.value)}/>
+          <Input type="password" placeholder="Senha" onInput={e => setPasswordLogin(e.target.value)}/>
+          <Button disabled={isConnected === false} onClick={() => handleAuthentication()}>Entrar</Button>
         </LoginContainer>
 
         <Divider/>
@@ -61,7 +83,7 @@ function Login({socketIOClient, isConnected}) {
           <Input placeholder="Usuário"/>
           <Input type="password" placeholder="Senha"/>
           <Input placeholder="Email"/>
-          <Button disabled={isConnected === false} value="Registrar"/>
+          <Button disabled={isConnected === false}>Registrar</Button>
         </RegisterContainer>
       </MainBox>        
     </Container>
@@ -72,4 +94,7 @@ const mapStateToProps = store => ({
   isConnected: store.appState.isConnected
 });
 
-export default connect(mapStateToProps)(Login);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ setAuthenticated }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
