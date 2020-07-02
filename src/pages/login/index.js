@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { useHistory } from 'react-router-dom';
 
 import IsNullOrEmpty from '../../helper/isNullOrEmpty'
-import { setAuthenticated } from '../../actions';
+import { setAuthenticated, setUserConnected } from '../../actions';
 import ProjectTitle from '../../components/projectTitle'
 
 import { 
@@ -18,7 +18,7 @@ import {
         Button
         } from './styles'
 
-function Login({socketIOClient, isConnected, setAuthenticated}) {
+function Login({socketIOClient, isConnected, setAuthenticated, setUserConnected}) {
   const history = useHistory();
   const socket = socketIOClient;
   const initialInputValues = {
@@ -42,9 +42,9 @@ function Login({socketIOClient, isConnected, setAuthenticated}) {
     socket.on('responseStatus', (response) => { 
         if(response === "USER_AUTHENTICATED"){          
           alert("Usuário autenticado");
-
-          setAuthenticated(true); //Redux setando o store da aplicação como usuário autenticado
           
+          setAuthenticated(true); //Redux setando o store da aplicação como usuário autenticado
+
           let path = `/chat`; 
           history.push(path);
         }
@@ -72,6 +72,8 @@ function Login({socketIOClient, isConnected, setAuthenticated}) {
         username: usernameLogin,
         password: passwordLogin
       }
+
+      setUserConnected(usernameLogin); //Redux setando o usuário que foi autenticado
       
       socket.emit('sendMessage', messageObject);
     }
@@ -134,7 +136,7 @@ const mapStateToProps = store => ({
   isConnected: store.appState.isConnected
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ setAuthenticated }, dispatch);
+const mapDispatchToProps = dispatch => 
+  bindActionCreators({ setAuthenticated, setUserConnected }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

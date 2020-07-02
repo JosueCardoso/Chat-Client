@@ -8,6 +8,7 @@ export const Container = styled.div`
 export const MessageContainer = styled.div`
   height: 500px; 
   border: 1px solid #CACACA;
+  overflow: auto;
 `;
 
 export const InputMessageContainer = styled.div`
