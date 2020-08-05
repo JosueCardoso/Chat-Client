@@ -61,6 +61,19 @@ function Chat({ socketIOClient, userConnected }) {
       messageId++;
       setMessageReceived(oldArray => [...oldArray, messageResponse]);     
     });
+
+    //Recebe a resposta do servidor referente algum usuário que saiu
+    socket.on('userLeft', (response) => {
+
+      const messageResponse = {
+        id: messageId,
+        username: 'Sistema',
+        message: `Usuário ${response} saiu do chat!`
+      }
+      
+      messageId++;
+      setMessageReceived(oldArray => [...oldArray, messageResponse]);     
+    });
   }
 
   const elements = () => {
