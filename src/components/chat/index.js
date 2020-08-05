@@ -14,7 +14,7 @@ function Chat({ socketIOClient, userConnected }) {
 
   const handleMessagePub = async () => {
 
-    if(await IsNullOrEmpty(messageToSend) == false){      
+    if(await IsNullOrEmpty(messageToSend) === false){      
       const messageObject = {
         protocol: "MESSAGE",
         username: userConnected,
@@ -35,7 +35,8 @@ function Chat({ socketIOClient, userConnected }) {
       const messageResponse = {
         id: messageId,
         username: response.username,
-        message: response.text
+        message: response.text,
+        messageColor: 'black'
       }
       
       messageId++;
@@ -55,7 +56,8 @@ function Chat({ socketIOClient, userConnected }) {
       const messageResponse = {
         id: messageId,
         username: 'Sistema',
-        message: `Usuário ${response} entrou no chat!`
+        message: `${response} entrou no chat!`,
+        messageColor: 'blue'
       }
       
       messageId++;
@@ -68,7 +70,8 @@ function Chat({ socketIOClient, userConnected }) {
       const messageResponse = {
         id: messageId,
         username: 'Sistema',
-        message: `Usuário ${response} saiu do chat!`
+        message: `${response} saiu do chat!`,
+        messageColor: 'red'
       }
       
       messageId++;
@@ -80,7 +83,7 @@ function Chat({ socketIOClient, userConnected }) {
     let arrayElements = [];
 
     messageReceived.forEach((message) =>  {      
-      arrayElements.push(<Message key={message.id} message={message.message} username={message.username}/>)     
+      arrayElements.push(< Message key={message.id} message={message.message} username={message.username} messageColor={message.messageColor} />)     
     })
     
     return arrayElements;
