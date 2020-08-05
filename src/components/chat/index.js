@@ -22,6 +22,8 @@ function Chat({ socketIOClient, userConnected }) {
       }      
       socket.emit('sendMessage', messageObject);
     }    
+
+    setMessageToSend('');
   }
 
   //Função que se conecta ao servidor
@@ -45,6 +47,19 @@ function Chat({ socketIOClient, userConnected }) {
       if(response === "MESSAGE_NOT_VALID"){
         alert("Mensagem não encaminhada");
       }
+    });
+
+    //Recebe a resposta do servidor referente algum usuário que entrou
+    socket.on('userJoin', (response) => {
+
+      const messageResponse = {
+        id: messageId,
+        username: 'Sistema',
+        message: `Usuário ${response} entrou no chat!`
+      }
+      
+      messageId++;
+      setMessageReceived(oldArray => [...oldArray, messageResponse]);     
     });
   }
 
@@ -71,7 +86,7 @@ function Chat({ socketIOClient, userConnected }) {
           </MessageContainer>
 
           <InputMessageContainer>
-            <InputMessage placeholder='Escreva sua mensagem aqui...' onInput={e => setMessageToSend(e.target.value)}/>
+            <InputMessage placeholder='Escreva sua mensagem aqui...' onChange={e => setMessageToSend(e.target.value)} value={messageToSend}/>
             <ButtonSend onClick={() => handleMessagePub()}>Enviar</ButtonSend>
           </InputMessageContainer>
       </Container>
