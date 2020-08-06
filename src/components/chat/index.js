@@ -56,7 +56,7 @@ function Chat({ socketIOClient, userConnected }) {
       const messageResponse = {
         id: messageId,
         username: 'Sistema',
-        message: `${response} entrou no chat!`,
+        message: `${response.username} entrou no chat!`,
         messageColor: 'blue'
       }
       
@@ -70,7 +70,7 @@ function Chat({ socketIOClient, userConnected }) {
       const messageResponse = {
         id: messageId,
         username: 'Sistema',
-        message: `${response} saiu do chat!`,
+        message: `${response.username} saiu do chat!`,
         messageColor: 'red'
       }
       

@@ -1,33 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 
  import { Container, UserName } from './styles';
 
-function usersOnline() {
-  const usersInChat = [
-                      {
-                        id: 1,
-                        username: 'Usuário1',
-                        isCurrentUser: false
-                      }, 
-                      {
-                        id: 2,
-                        username: 'Usuário2',
-                        isCurrentUser: false
-                      }, 
-                      {
-                        id: 3,                        
-                        username: 'Usuário3',
-                        isCurrentUser: true
-                      }
-                    ];
+function UsersOnline({socketIOClient}) {
+  const socket = socketIOClient;
+  const [usersInChat, setNewUsersInChat] = useState([]);
+
+    //Função que se conecta ao servidor
+    const handleSocketIO = () => {            
+
+      //Recebe a resposta do servidor referente a lista de usuários online
+      socket.on('usersList', (response) => {             
+        setNewUsersInChat(response);    
+      });
+  }
+  
+  //Evento disparado ao iniciar a página
+  useEffect(() => {    
+    handleSocketIO();
+  }, []);
 
   return (
       <Container>
         {usersInChat.map((item, key) => 
-          <UserName key={item.id} isCurrentUser={item.isCurrentUser}>{item.username}</UserName>
+          <UserName key={item.id}>{item.username}</UserName>
         )}
       </Container>
   )
 }
 
-export default usersOnline;
+export default UsersOnline;

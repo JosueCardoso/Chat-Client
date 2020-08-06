@@ -12,35 +12,13 @@ function Chat({socketIOClient, isConnected}) { //TODO: Fazer controle de conexã
     const socket = socketIOClient;
     const history = useHistory();
 
-    //Função que se conecta ao servidor
-    const handleSocketIO = () => {    
-        
-        //Recebe a resposta do servidor referente as requisições
-        socket.on('responseStatus', (response) => { 
-            if(response === "USER_JOINED"){      
-                alert("Usuário entrou");
-            }
-            if(response === "USER_LEFT"){
-                alert("Usuário saiu");
-            }
-            if(response === "NEW_MESSAGE"){
-                alert("Nova mensagem no chat")
-            }
-        });
-    }
-
-    //Evento disparado ao iniciar a página
-    useEffect(() => {    
-      handleSocketIO();
-    }, []);
-
     return (
        <Container>           
            <ProjectTitle/>
            <MainBox>
                <ChatContainer>                        
                    <ChatComponent socketIOClient={socketIOClient}/>
-                   <UsersOnline/>
+                   <UsersOnline socketIOClient={socketIOClient}/>
                </ChatContainer>
            </MainBox>
        </Container>
